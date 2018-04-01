@@ -1,0 +1,23 @@
+{
+  "name": "bitbot",
+  "version": "1.0.0",
+  "description": "final project share public or private entries",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fzbo/BitBot.git"
+  },
+  "author": "eb",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fzbo/BitBot/issues"
+  },
+  "homepage": "https://github.com/fzbo/BitBot#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "mongoose": "^5.0.12"
+  }
+}
