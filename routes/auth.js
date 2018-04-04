@@ -5,11 +5,9 @@ const passport = require('passport');
 
 router.get('/google', passport.authenticate('google', {scope: ['profile', 'email']}));
 
-//NEW SEC ADDED 04/04
 router.get('/google/callback', 
-  passport.authenticate('google', { failureRedirect: '/' }), (req, res) => {
+  passport.authenticate('google', { failureRedirect: '/' }),(req, res) => {
     res.redirect('/dashboard');
   });
-  //
 
 module.exports = router;
