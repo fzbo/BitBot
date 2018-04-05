@@ -16,14 +16,9 @@ const keys = require('./config/keys');
 mongoose.Promise = global.Promise;
 // MONGOOSE CONNECT-ISSUES WITH THIS CONNECTION
 
-/*mongoose.connect(keys.mongoURI, {
-  useMongoClient:true
-})
+mongoose.connect(keys.mongoURI, {})
   .then(() => console.log('MongoDB Connected'))
   .catch(err => console.log(err));
-*/
-mongoose.connect(keys.mongoURI);
-
 
 app.get('/', (req, res) => {
   res.send('It Works!');
