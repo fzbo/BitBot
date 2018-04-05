@@ -1,7 +1,7 @@
-//DEPENDENCIES
 const express = require('express');
 const mongoose = require('mongoose');
 const passport = require('passport');
+const app = express();
 
 // Passport Config
 require('./config/passport')(passport);
@@ -9,7 +9,21 @@ require('./config/passport')(passport);
 // Load Routes
 const auth = require('./routes/auth');
 
-const app = express();
+// Load Keys
+const keys = require('./config/keys');
+
+// Map global promises
+mongoose.Promise = global.Promise;
+// MONGOOSE CONNECT-ISSUES WITH THIS CONNECTION
+
+/*mongoose.connect(keys.mongoURI, {
+  useMongoClient:true
+})
+  .then(() => console.log('MongoDB Connected'))
+  .catch(err => console.log(err));
+*/
+mongoose.connect(keys.mongoURI);
+
 
 app.get('/', (req, res) => {
   res.send('It Works!');
