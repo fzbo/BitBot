@@ -3,6 +3,9 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const app = express();
 
+//LOAD USER MODEL
+require('./models/User');
+
 // Passport Config
 require('./config/passport')(passport);
 
