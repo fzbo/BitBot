@@ -14,8 +14,7 @@ const keys = require('./config/keys');
 
 // Map global promises
 mongoose.Promise = global.Promise;
-// MONGOOSE CONNECT-ISSUES WITH THIS CONNECTION//
-
+// MONGOOSE CONNECT
 mongoose.connect(keys.mongoURI, {})
   .then(() => console.log('MongoDB Connected'))
   .catch(err => console.log(err));
