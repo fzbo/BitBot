@@ -1,3 +1,4 @@
+//UPDATED MONGOURI CREDENTIALS
 module.exports = {
     mongoURI: 'mongodb://pepper:jules@ds121588.mlab.com:21588/bitbot-dev',
     googleClientID: '11398639911-encta6i6gqpv51t6ase2n8v06j61ldgg.apps.googleusercontent.com',
