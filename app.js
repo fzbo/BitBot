@@ -3,16 +3,16 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const app = express();
 
-// Passport Config
+// PASSPORT CONFIG
 require('./config/passport')(passport);
 
-// Load Routes
+// LOAD ROUTES
 const auth = require('./routes/auth');
 
-// Load Keys
+// LOAD KEYS
 const keys = require('./config/keys');
 
-// Map global promises
+// MAP GLOBAL PROMISE
 mongoose.Promise = global.Promise;
 // MONGOOSE CONNECT-ISSUES WITH THIS CONNECTION//
 
@@ -24,7 +24,7 @@ app.get('/', (req, res) => {
   res.send('It Works!');
 });
 
-// Use Routes
+// USE ROUTES
 app.use('/auth', auth);
 
 const port = process.env.PORT || 5000;
