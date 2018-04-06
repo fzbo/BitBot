@@ -1,4 +1,5 @@
 const express = require('express');
+const exphbs = require('express-handlebars');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
@@ -11,8 +12,8 @@ require('./models/User');
 require('./config/passport')(passport);
 
 // LOAD ROUTES
+const index = require('./routes/index');
 const auth = require('./routes/auth');
-
 // LOAD KEYS
 const keys = require('./config/keys');
 
@@ -23,12 +24,16 @@ mongoose.connect(keys.mongoURI, {})
   .then(() => console.log('MongoDB Connected'))
   .catch(err => console.log(err));
 
-
+//SETTING UP INSTANCE OF EXPRESS SERVER
 const app = express();
 
-app.get('/', (req, res) => {
-  res.send('It Works!');
-});
+//HANDLEBARS 
+app.engine('handlebars', exphbs({
+    defaultLayout: 'main'
+}));
+app.set('view engine', 'handlebars');
+
+
 
 app.use(cookieParser());
 app.use(session({
@@ -48,6 +53,7 @@ app.use((req, res, next) => {
 });
 
 // USE ROUTES
+app.use('/', index);
 app.use('/auth', auth);
 
 
