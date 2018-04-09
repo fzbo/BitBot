@@ -18,8 +18,8 @@ router.get('/verify', (req, res) => {
 });
 
 router.get('/logout', (req, res) => {
- req.logout();
- res.redirect('/');
+  req.logout();
+  res.redirect('/');
 });
 
 module.exports = router;
