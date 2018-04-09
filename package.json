@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/fzbo/BitBot#readme",
   "dependencies": {
+    "body-parser": "^1.18.2",
     "cookie-parser": "^1.4.3",
     "dotenv": "^5.0.1",
     "eslint": "^4.19.1",
