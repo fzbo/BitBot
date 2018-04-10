@@ -7,8 +7,14 @@ const {ensureAuthenticated, ensureGuest} = require('../helpers/auth');
 
 //STORIES INDEX
 router.get('/', (req,res) => {
-    res.render('stories/index');
-});
+    Story.find({status: 'public'})
+        .populate('user')
+        .then(stories => {
+            res.render('stories/index', {
+                stories: stories
+            });
+        });
+    });
 
 //ADD STORY FORM
 router.get('/add', ensureAuthenticated, (req,res) => {
