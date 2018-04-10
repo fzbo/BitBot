@@ -17,8 +17,15 @@ require('./config/passport')(passport);
 const index = require('./routes/index');
 const auth = require('./routes/auth');
 const stories = require('./routes/stories');
+
 // LOAD KEYS
 const keys = require('./config/keys');
+
+//HANDLEBAR HELPERS
+const {
+  truncate,
+  stripTags
+} = require('./helpers/hbs');
 
 // MAP GLOBAL PROMISES
 mongoose.Promise = global.Promise;
@@ -37,7 +44,11 @@ app.use(bodyParser.json())
 
 //HANDLEBARS MIDDLEWARE
 app.engine('handlebars', exphbs({
-    defaultLayout: 'main'
+    helpers: {
+      truncate: truncate,
+      stripTags: stripTags
+    },
+  defaultLayout: 'main'
 }));
 app.set('view engine', 'handlebars');
 
