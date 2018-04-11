@@ -2,26 +2,28 @@ const express = require('express');
 const path = require('path');
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
+const methodOverride = require('method-override');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const passport = require('passport');
 
-// LOAD MODELS
+// Load Models
 require('./models/User');
-require('./models/Story');//040918
-// PASSPORT CONFIG
+require('./models/Story');
+
+// Passport Config
 require('./config/passport')(passport);
 
-// LOAD ROUTES
+// Load Routes
 const index = require('./routes/index');
 const auth = require('./routes/auth');
 const stories = require('./routes/stories');
 
-// LOAD KEYS
+// Load Keys
 const keys = require('./config/keys');
 
-//HANDLEBAR HELPERS
+// Handlebars Helpers
 const {
   truncate,
   stripTags,
@@ -29,34 +31,33 @@ const {
   select
 } = require('./helpers/hbs');
 
-// MAP GLOBAL PROMISES
+// Map global promises
 mongoose.Promise = global.Promise;
-// MONGOOSE CONNECT
-mongoose.connect(keys.mongoURI, {})
+// Mongoose Connect
+mongoose.connect(keys.mongoURI, {}) //useMongoClient:true NO LONGER NEC IN MONGOOSE 5.X PER OUTPUT MSG
   .then(() => console.log('MongoDB Connected'))
   .catch(err => console.log(err));
 
-//SETTING UP INSTANCE OF EXPRESS SERVER
 const app = express();
 
-//PARSE APPLICATION/x-www-form-urlencoded
+// Body Parser Middleware
 app.use(bodyParser.urlencoded({ extended: false }))
- // PARSE APPLICATION JSON
 app.use(bodyParser.json())
 
-//HANDLEBARS MIDDLEWARE
+// MEthod Override Middelware
+app.use(methodOverride('_method'));
+
+// Handlebars Middleware
 app.engine('handlebars', exphbs({
-    helpers: {
-      truncate: truncate,
-      stripTags: stripTags,
-      formatDate:formatDate,
-      select:select
-    },
-  defaultLayout: 'main'
+  helpers: {
+    truncate: truncate,
+    stripTags: stripTags,
+    formatDate:formatDate,
+    select:select
+  },
+  defaultLayout:'main'
 }));
 app.set('view engine', 'handlebars');
-
-
 
 app.use(cookieParser());
 app.use(session({
@@ -65,24 +66,23 @@ app.use(session({
   saveUninitialized: false
 }));
 
-// PASSPORT MIDDLEWARE
+// Passport Middleware
 app.use(passport.initialize());
 app.use(passport.session());
 
-// SET GLOBAL VARS
+// Set global vars
 app.use((req, res, next) => {
   res.locals.user = req.user || null;
   next();
 });
 
-//SET STATIC FOLDER
+// Set static folder
 app.use(express.static(path.join(__dirname, 'public')));
 
-// USE ROUTES
+// Use Routes
 app.use('/', index);
 app.use('/auth', auth);
 app.use('/stories', stories);
-
 
 const port = process.env.PORT || 5000;
 
