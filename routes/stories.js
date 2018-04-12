@@ -5,7 +5,7 @@ const Story = mongoose.model('stories');
 const User = mongoose.model('users');
 const {ensureAuthenticated, ensureGuest} = require('../helpers/auth');
 
-// Stories Index
+// STORIES INDEX
 router.get('/', (req, res) => {
   Story.find({status:'public'})
     .populate('user')
@@ -17,7 +17,7 @@ router.get('/', (req, res) => {
     });
 });
 
-// Show Single Story
+// SHOW SINGLE STORY
 router.get('/show/:id', (req, res) => {
   Story.findOne({
     _id: req.params.id
@@ -25,18 +25,55 @@ router.get('/show/:id', (req, res) => {
   .populate('user')
   .populate('comments.commentUser')
   .then(story => {
-    res.render('stories/show', {
-      story: story
-    });
+      if(story.status == 'public'){
+        res.render('stories/show', {
+          story: story
+        });
+      } else {
+          if(req.user) {
+              if(req.user.id == story.user._id) {
+                res.render('stories/show', {
+                  story: story
+                });
+              } else {
+                  res.redirect('/stories');
+              }
+
+          } else {
+            res.redirect('/stories');
+          }
+      }
   });
 });
 
-// Add Story Form
+//LIST STORY FROM A USER
+  router.get('/user/:userId', (req, res) => {
+      Story.find({user: req.params.userId, status: 'public'})
+        .populate('user')
+        .then(stories => {
+            res.render('stories/index', {
+                stories:stories
+            });
+        });
+  });
+
+//LOGGED IN USERS STORIES
+  router.get('/my', ensureAuthenticated, (req, res) => {
+    Story.find({user: req.user.id})
+      .populate('user')
+      .then(stories => {
+          res.render('stories/index', {
+              stories:stories
+          });
+      });
+  });
+
+// ADD A STORY FORM
 router.get('/add', ensureAuthenticated, (req, res) => {
   res.render('stories/add');
 });
 
-// Edit Story Form
+// EDIT A STORY FORM
 router.get('/edit/:id', ensureAuthenticated, (req, res) => {
   Story.findOne({
     _id: req.params.id
@@ -52,7 +89,7 @@ router.get('/edit/:id', ensureAuthenticated, (req, res) => {
        });
     });
 
-// Process Add Story
+// PROCESS ADD STORY
 router.post('/', (req, res) => {
   let allowComments;
 
@@ -70,7 +107,7 @@ router.post('/', (req, res) => {
     user: req.user.id
   }
 
-  // Create Story
+  // CREATE STORY
   new Story(newStory)
     .save()
     .then(story => {
@@ -78,7 +115,7 @@ router.post('/', (req, res) => {
     });
 });
 
-// Edit Form Process
+// EDIT FORM PROCESS
 router.put('/:id', (req, res) => {
   Story.findOne({
     _id: req.params.id
@@ -92,7 +129,7 @@ router.put('/:id', (req, res) => {
       allowComments = false;
     }
 
-    // New values
+    // NEW VALUES
     story.title = req.body.title;
     story.body = req.body.body;
     story.status = req.body.status;
