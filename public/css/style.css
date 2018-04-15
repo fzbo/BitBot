@@ -28,3 +28,12 @@ body {
   #delete-form{
     display:inline;
   }
+
+  .btn{
+    background-color: #ff6d00
+  }
+
+  .checkbox-limegreen[type="checkbox"].filled-in:checked + label:after{
+    border: 2px solid #64dd17;
+    background-color: #64dd17;
+}
