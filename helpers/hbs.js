@@ -12,13 +12,13 @@ module.exports = {
 		return str;
   },
   stripTags: function(input){
-    return input.replace(/<(?:.|\n)*?>/gm, '');
+    return input.replace(/<(?:.|\n)*?>/gm, ' '); //041518
   },
   formatDate: function(date, format){
     return moment(date).format(format);
   },
   select: function(selected, options){
-    return options.fn(this).replace( new RegExp(' value=\"' + selected + '\"'), '$& selected="selected"').replace( new RegExp('>' + selected + '</option>'), ' selected="selected"$&');
+    return options.fn(this).replace( new RegExp(' value=\" ' + selected + '\" '), '$& selected="selected" ').replace( new RegExp('>' + selected + '</option>'), ' selected="selected"$&');
   },
     editIcon: function(storyUser, loggedUser, storyId, floating = true){
         if(storyUser == loggedUser) {
