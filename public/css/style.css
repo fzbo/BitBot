@@ -37,3 +37,7 @@ body {
     border: 2px solid #64dd17;
     background-color: #64dd17;
 }
+
+.card-content{
+  background-color: #F3E5F5
+}
