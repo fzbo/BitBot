@@ -6,10 +6,24 @@ body {
 
   main {
     flex: 1 0 auto;
+    margin-top: 50px;
   }
 
   .nav-wrapper .fa-bars{
     font-size:25px;
+  }
+
+  nav {
+    position: fixed;
+    z-index: 99;
+  }
+
+  .robot { 
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 
   footer{
